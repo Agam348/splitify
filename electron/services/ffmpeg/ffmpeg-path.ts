@@ -10,7 +10,7 @@ export function resolveFfmpegPath() {
   }
 
   return path.join(
-    process.env.APP_ROOT,
+    process.env.APP_ROOT || '',
     'node_modules',
     'ffmpeg-static',
     executable,

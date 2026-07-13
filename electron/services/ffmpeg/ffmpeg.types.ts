@@ -1,5 +1,3 @@
-import type { DurationSplitRequest } from '../../../shared/processing/processing.types'
-
 export type FFmpegErrorCode =
   | 'MISSING_FFMPEG'
   | 'INVALID_INPUT'
@@ -10,6 +8,7 @@ export type FFmpegErrorCode =
   | 'OUTPUT_COLLISION'
   | 'FFMPEG_FAILURE'
   | 'UNEXPECTED_EXIT'
+  | 'CANCELLED'
 
 export interface FFmpegFailure {
   success: false
@@ -30,4 +29,25 @@ export interface FFmpegSuccess {
 }
 
 export type FFmpegResult = FFmpegSuccess | FFmpegFailure
-export type FFmpegSplitRequest = DurationSplitRequest
+
+export interface FFmpegSplitRequest {
+  inputPath: string
+  outputFolder: string
+  projectName: string
+  clipDurationSeconds: number
+  /** Full duration of the source video – used to compute progress percentage. */
+  totalDurationSeconds: number
+}
+
+/**
+ * Structured progress data computed inside FFmpegService from raw FFmpeg output.
+ * Never exposed to the renderer; ProcessingService converts this to SplitProgressEvent.
+ */
+export interface FFmpegProgressEvent {
+  processedSeconds: number
+  percentage: number     // 0–99, capped before 'done'
+  currentClip: number    // 1-based estimate
+  totalClips: number     // estimated from duration / clipDuration
+}
+
+export type FFmpegProgressCallback = (event: FFmpegProgressEvent) => void

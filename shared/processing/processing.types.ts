@@ -1,9 +1,20 @@
-export interface DurationSplitRequest {
+export interface BaseSplitRequest {
   inputPath: string
   outputFolder: string
   projectName: string
+}
+
+export interface SplitByDurationRequest extends BaseSplitRequest {
+  splitMethod: 'duration'
   clipDurationSeconds: number
 }
+
+export interface SplitByEqualPartsRequest extends BaseSplitRequest {
+  splitMethod: 'equal-parts'
+  equalParts: number
+}
+
+export type DurationSplitRequest = SplitByDurationRequest | SplitByEqualPartsRequest
 
 export type ProcessingErrorCode =
   | 'PROCESSOR_UNAVAILABLE'
@@ -16,6 +27,7 @@ export type ProcessingErrorCode =
   | 'PROCESSING_FAILED'
   | 'UNEXPECTED_EXIT'
   | 'PROCESSING_BUSY'
+  | 'PROCESSING_CANCELLED'
 
 export interface ProcessingError {
   code: ProcessingErrorCode
@@ -40,3 +52,15 @@ export interface DurationSplitFailure {
 export type DurationSplitResult =
   | DurationSplitSuccess
   | DurationSplitFailure
+
+export interface SplitProgressEvent {
+  /** 0–99 during processing, 100 when done. */
+  percentage: number
+  /** 1-based index of the clip currently being written. */
+  currentClip: number
+  /** Estimated total number of clips for this job. */
+  totalClips: number
+  /** Seconds of input video processed so far. */
+  processedSeconds: number
+  state: 'processing' | 'done' | 'cancelled'
+}

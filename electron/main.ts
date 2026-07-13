@@ -28,7 +28,6 @@ import {
 } from './ipc/processing.ipc'
 import { FFmpegService } from './services/ffmpeg/ffmpeg.service'
 import { resolveFfmpegPath } from './services/ffmpeg/ffmpeg-path'
-import { ProcessingService } from './services/processing.service'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -63,14 +62,12 @@ function createWindow() {
     },
   })
 
+  const mediaService = new MediaService()
   registerDialogIpc(win)
-  registerMediaIpc(win, new MediaService())
+  registerMediaIpc(win, mediaService)
   registerSettingsIpc(win, new SettingsService())
   registerValidationIpc(win, new ValidationService(inspectOutputDirectory))
-  registerProcessingIpc(
-    win,
-    new ProcessingService(new FFmpegService(resolveFfmpegPath())),
-  )
+  registerProcessingIpc(win, new FFmpegService(resolveFfmpegPath()), mediaService)
 
   win.on('closed', () => {
     unregisterDialogIpc()

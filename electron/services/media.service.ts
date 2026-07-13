@@ -52,7 +52,7 @@ function getFfprobePath() {
   }
 
   return path.join(
-    process.env.APP_ROOT,
+    process.env.APP_ROOT || '',
     'node_modules',
     '@ffprobe-installer',
     packageName,

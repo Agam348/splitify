@@ -135,21 +135,36 @@ export function SplitWorkspace() {
                   validation.isValidating ||
                   !validation.isValid ||
                   isReadingMetadata ||
-                  configuration.splitMethod !== 'duration' ||
                   splitting.isProcessing
                 }
                 onClick={() => {
                   if (
                     selectedVideoPath &&
-                    outputFolder.outputFolder &&
-                    configuration.splitDurationSeconds !== null
+                    outputFolder.outputFolder
                   ) {
-                    void splitting.splitByDuration({
-                      inputPath: selectedVideoPath,
-                      outputFolder: outputFolder.outputFolder,
-                      projectName: configuration.projectName,
-                      clipDurationSeconds: configuration.splitDurationSeconds,
-                    })
+                    if (
+                      configuration.splitMethod === 'duration' &&
+                      configuration.splitDurationSeconds !== null
+                    ) {
+                      void splitting.splitByDuration({
+                        inputPath: selectedVideoPath,
+                        outputFolder: outputFolder.outputFolder,
+                        projectName: configuration.projectName,
+                        splitMethod: 'duration',
+                        clipDurationSeconds: configuration.splitDurationSeconds,
+                      })
+                    } else if (
+                      configuration.splitMethod === 'equal-parts' &&
+                      configuration.equalParts !== null
+                    ) {
+                      void splitting.splitByDuration({
+                        inputPath: selectedVideoPath,
+                        outputFolder: outputFolder.outputFolder,
+                        projectName: configuration.projectName,
+                        splitMethod: 'equal-parts',
+                        equalParts: configuration.equalParts,
+                      })
+                    }
                   }
                 }}
               >
@@ -167,7 +182,11 @@ export function SplitWorkspace() {
             </CardContent>
           </Card>
 
-          <ProgressSection />
+          <ProgressSection
+            isProcessing={splitting.isProcessing}
+            progress={splitting.progress}
+            onCancel={splitting.cancel}
+          />
         </div>
       </main>
     </div>

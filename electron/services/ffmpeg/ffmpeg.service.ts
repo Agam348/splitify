@@ -13,6 +13,7 @@ import path from 'node:path'
 
 import { supportedVideoExtensions } from '../../../shared/media/video-formats'
 import type {
+  FFmpegProgressCallback,
   FFmpegResult,
   FFmpegSplitRequest,
 } from './ffmpeg.types'
@@ -30,7 +31,6 @@ function normalizeAbsolutePath(value: string) {
 
   return path.normalize(value)
 }
-
 
 function escapeExpression(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -89,7 +89,18 @@ async function promoteFile(source: string, destination: string) {
 export class FFmpegService {
   constructor(private readonly executablePath: string) {}
 
-  async splitByDuration(request: FFmpegSplitRequest): Promise<FFmpegResult> {
+  /**
+   * Splits a video by duration using FFmpeg's segment muxer.
+   *
+   * All FFmpeg progress parsing is performed inside this method; callers
+   * receive structured `FFmpegProgressEvent` objects and are never exposed
+   * to raw FFmpeg output.
+   */
+  async splitByDuration(
+    request: FFmpegSplitRequest,
+    onProgress?: FFmpegProgressCallback,
+    signal?: AbortSignal,
+  ): Promise<FFmpegResult> {
     const startedAt = Date.now()
     let outputFolder = request.outputFolder
     let temporaryDirectory: string | null = null
@@ -124,11 +135,21 @@ export class FFmpegService {
         access(this.executablePath, constants.X_OK),
       ]).catch((error) => { throw mapFileError(error, 'MISSING_FFMPEG') })
 
+      // ── Estimate total clips for progress reporting ──────────────────────
+      const estimatedTotalClips = Math.max(
+        1,
+        Math.ceil(request.totalDurationSeconds / request.clipDurationSeconds),
+      )
+
       const uniqueProjectName = await getUniqueProjectName(outputFolder, projectName)
       temporaryDirectory = await mkdtemp(path.join(outputFolder, '.splitify-job-'))
       const outputPattern = path.join(temporaryDirectory, temporaryFilePattern)
+
+      // ── Build FFmpeg args ────────────────────────────────────────────────
+      const progressArgs = onProgress ? ['-progress', 'pipe:1'] : []
       const args = [
         '-hide_banner', '-loglevel', 'error', '-nostdin', '-n',
+        ...progressArgs,
         '-i', inputPath,
         '-map', '0:v:0', '-map', '0:a?',
         '-c', 'copy', '-f', 'segment',
@@ -137,7 +158,25 @@ export class FFmpegService {
         outputPattern,
       ]
 
-      await runFfmpeg(this.executablePath, args)
+      // ── Translate raw progress packets → FFmpegProgressEvent ─────────────
+      const rawHandler = onProgress
+        ? (packet: { outTimeMicros: number }) => {
+            const processedSeconds = packet.outTimeMicros / 1_000_000
+            const currentClip = Math.min(
+              Math.floor(processedSeconds / request.clipDurationSeconds) + 1,
+              estimatedTotalClips,
+            )
+            // Cap at 99 – ProcessingService will emit the final 100 on success.
+            const percentage = Math.min(
+              Math.round((processedSeconds / request.totalDurationSeconds) * 100),
+              99,
+            )
+            onProgress({ processedSeconds, percentage, currentClip, totalClips: estimatedTotalClips })
+          }
+        : undefined
+
+      await runFfmpeg(this.executablePath, args, rawHandler, signal)
+
       const segments = (await readdir(temporaryDirectory))
         .filter((name) => temporaryFileExpression.test(name))
         .sort((left, right) => left.localeCompare(right))
