@@ -1,3 +1,4 @@
+import { Loader2, XCircle } from 'lucide-react'
 import type { SplitProgressEvent } from '../../../../shared/processing/processing.types'
 
 interface ProgressSectionProps {
@@ -22,66 +23,72 @@ export function ProgressSection({
   const isDone = state === 'done'
 
   const statusLabel = isDone
-    ? 'Finishing up…'
+    ? 'Finalizing exported clips…'
     : isCancelling
-      ? 'Cancelling…'
+      ? 'Cancelling operation…'
       : totalClips > 0
-        ? `Writing clip ${currentClip} of ${totalClips}`
-        : 'Starting…'
+        ? `Cutting clip ${currentClip} of ${totalClips}`
+        : 'Initializing FFmpeg pipeline…'
 
   return (
     <section
       aria-label="Processing progress"
-      className="rounded-xl border border-blue-100 bg-blue-50/60 p-5"
+      className="rounded-2xl border border-indigo-100/80 bg-gradient-to-b from-indigo-50/50 via-white to-white p-5 shadow-card"
     >
       {/* Header row */}
       <div className="mb-3 flex items-center justify-between gap-4">
-        <p className="truncate text-sm font-semibold text-slate-700">
-          {statusLabel}
-        </p>
-        <span className="shrink-0 text-sm font-semibold tabular-nums text-primary">
-          {percentage}%
-        </span>
+        <div className="flex items-center gap-2.5 min-w-0">
+          <Loader2 className="size-4 animate-spin text-indigo-600 shrink-0" />
+          <p className="truncate text-xs font-bold text-slate-800">
+            {statusLabel}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {totalClips > 0 && (
+            <span className="rounded-md bg-indigo-100/70 px-2 py-0.5 font-mono text-[11px] font-semibold text-indigo-700">
+              {currentClip}/{totalClips}
+            </span>
+          )}
+          <span className="font-mono text-sm font-bold tabular-nums text-indigo-600">
+            {percentage}%
+          </span>
+        </div>
       </div>
 
-      {/* Progress bar */}
+      {/* Progress bar container */}
       <div
         role="progressbar"
         aria-valuenow={percentage}
         aria-valuemin={0}
         aria-valuemax={100}
-        className="h-2.5 w-full overflow-hidden rounded-full bg-blue-100"
+        className="h-2 w-full overflow-hidden rounded-full bg-slate-100 p-0.5 border border-slate-200/50"
       >
         <div
-          className="h-full rounded-full bg-primary transition-[width] duration-300 ease-out"
+          className="h-full rounded-full bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-500 transition-[width] duration-300 ease-out shadow-xs"
           style={{ width: `${percentage}%` }}
         />
       </div>
 
-      {/* Footer row: clip counter + cancel button */}
+      {/* Footer row */}
       <div className="mt-3 flex items-center justify-between gap-4">
-        {totalClips > 0 ? (
-          <p className="text-xs text-muted-foreground">
-            {isDone
-              ? `${totalClips} clip${totalClips === 1 ? '' : 's'} ready`
-              : `Clip ${currentClip} of ${totalClips}`}
-          </p>
-        ) : (
-          <span />
-        )}
+        <p className="text-[11px] text-slate-400">
+          Fast copy mode enabled • Lossless stream cutting
+        </p>
 
-        {/* Cancel is hidden once we're in done/cancelling state */}
         {!isDone && !isCancelling && (
           <button
             id="cancel-processing-btn"
             type="button"
             onClick={onCancel}
-            className="text-xs font-medium text-muted-foreground underline-offset-2 hover:text-red-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors"
+            className="flex items-center gap-1 rounded-md px-2 py-1 text-xs font-semibold text-slate-500 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/20"
           >
-            Cancel
+            <XCircle className="size-3.5" />
+            <span>Cancel</span>
           </button>
         )}
       </div>
     </section>
   )
 }
+

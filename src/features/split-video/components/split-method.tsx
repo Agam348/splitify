@@ -1,4 +1,4 @@
-import { Clock3, Layers3 } from 'lucide-react'
+import { Clock3, Layers3, Sliders, AlertCircle } from 'lucide-react'
 
 import type { SplitMethod as SplitMethodValue } from '../../../../shared/validation/validation.types'
 import { Button } from '../../../components/ui/button'
@@ -32,116 +32,188 @@ export function SplitMethod({
   onEqualPartsChange,
   onSplitMethodChange,
 }: SplitMethodProps) {
+  const isDuration = splitMethod === 'duration'
+  const isEqualParts = splitMethod === 'equal-parts'
+
   return (
     <fieldset className="space-y-4">
-      <legend className="text-sm font-semibold text-foreground">
-        Split Method
-      </legend>
+      <div className="flex items-center justify-between">
+        <legend className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-700">
+          <Sliders className="size-3.5 text-indigo-500" />
+          <span>Splitting Strategy</span>
+        </legend>
+        <span className="text-xs text-slate-400">Choose interval mode</span>
+      </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <label className={cn(
-          'flex cursor-pointer gap-3 rounded-xl border bg-white p-4',
-          splitMethod === 'duration' && 'border-2 border-primary bg-blue-50/60',
-        )}>
+        {/* By Duration Card */}
+        <label
+          className={cn(
+            'group relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
+            isDuration
+              ? 'border-indigo-600 bg-indigo-50/40 shadow-xs ring-1 ring-indigo-500/20'
+              : 'border-slate-200/80 bg-white hover:border-slate-300 hover:bg-slate-50/50',
+          )}
+        >
           <input
             type="radio"
             name="split-method"
-            className="mt-1 accent-blue-600"
-            checked={splitMethod === 'duration'}
+            className="sr-only"
+            checked={isDuration}
             onChange={() => onSplitMethodChange('duration')}
           />
 
-          <Clock3 className="mt-0.5 size-5 text-primary" />
+          <div
+            className={cn(
+              'mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border transition-all',
+              isDuration
+                ? 'border-indigo-600 bg-indigo-600'
+                : 'border-slate-300 bg-white group-hover:border-slate-400',
+            )}
+          >
+            {isDuration && <div className="size-1.5 rounded-full bg-white" />}
+          </div>
 
-          <span>
-            <span className="block text-sm font-semibold">By duration</span>
-            <span className="mt-1 block text-xs text-muted-foreground">
-              Create clips of a fixed length
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <Clock3 className="size-4.5" />
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <span className="block text-sm font-bold text-slate-900">
+              Fixed Duration
             </span>
-          </span>
+            <span className="mt-0.5 block text-xs text-slate-500">
+              Chop into clips of uniform lengths (e.g. 30s reels, 60s shorts)
+            </span>
+          </div>
         </label>
 
-        <label className={cn(
-          'flex cursor-pointer gap-3 rounded-xl border bg-white p-4',
-          splitMethod === 'equal-parts' && 'border-2 border-primary bg-blue-50/60',
-        )}>
+        {/* Equal Parts Card */}
+        <label
+          className={cn(
+            'group relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
+            isEqualParts
+              ? 'border-indigo-600 bg-indigo-50/40 shadow-xs ring-1 ring-indigo-500/20'
+              : 'border-slate-200/80 bg-white hover:border-slate-300 hover:bg-slate-50/50',
+          )}
+        >
           <input
             type="radio"
             name="split-method"
-            className="mt-1 accent-blue-600"
-            checked={splitMethod === 'equal-parts'}
+            className="sr-only"
+            checked={isEqualParts}
             onChange={() => onSplitMethodChange('equal-parts')}
           />
 
-          <Layers3 className="mt-0.5 size-5 text-slate-500" />
+          <div
+            className={cn(
+              'mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border transition-all',
+              isEqualParts
+                ? 'border-indigo-600 bg-indigo-600'
+                : 'border-slate-300 bg-white group-hover:border-slate-400',
+            )}
+          >
+            {isEqualParts && <div className="size-1.5 rounded-full bg-white" />}
+          </div>
 
-          <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold">Equal parts</span>
-            <span className="mt-1 block text-xs text-muted-foreground">
-              Divide into a set number of clips
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+            <Layers3 className="size-4.5" />
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <span className="block text-sm font-bold text-slate-900">
+              Equal Segments
             </span>
-          </span>
+            <span className="mt-0.5 block text-xs text-slate-500">
+              Divide full video into a target quantity of equal slices
+            </span>
 
-          <Input
-            aria-label="Number of equal parts"
-            type="number"
-            min="2"
-            max="1000"
-            className="h-8 w-20 px-2 text-center"
-            value={equalPartsInput}
-            disabled={splitMethod !== 'equal-parts'}
-            aria-invalid={Boolean(equalPartsError)}
-            onChange={(event) => onEqualPartsChange(event.target.value)}
-          />
+            {isEqualParts && (
+              <div className="mt-3 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                <Input
+                  aria-label="Number of equal parts"
+                  type="number"
+                  min="2"
+                  max="1000"
+                  className="h-9 w-24 px-3 text-center font-mono font-semibold"
+                  value={equalPartsInput}
+                  disabled={!isEqualParts}
+                  aria-invalid={Boolean(equalPartsError)}
+                  onChange={(event) => onEqualPartsChange(event.target.value)}
+                />
+                <span className="text-xs font-semibold text-slate-600">equal clips</span>
+              </div>
+            )}
+          </div>
         </label>
       </div>
 
-      {splitMethod === 'equal-parts' && equalPartsError && (
-        <p className="text-xs text-red-600">{equalPartsError}</p>
+      {isEqualParts && equalPartsError && (
+        <div className="flex items-center gap-1.5 text-xs text-red-600">
+          <AlertCircle className="size-3.5 shrink-0" />
+          <span>{equalPartsError}</span>
+        </div>
       )}
 
-      <div className="space-y-2.5">
-        <Label>Clip duration</Label>
+      {/* Duration configuration sub-panel */}
+      {isDuration && (
+        <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-4 space-y-3">
+          <Label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Clip Length Presets
+          </Label>
 
-        <div className="flex flex-wrap gap-2">
-          {durationPresets.map((preset) => {
-            const isSelected = preset.value === null
-              ? isCustomDuration
-              : !isCustomDuration && durationInput === String(preset.value)
+          <div className="flex flex-wrap gap-2">
+            {durationPresets.map((preset) => {
+              const isSelected = preset.value === null
+                ? isCustomDuration
+                : !isCustomDuration && durationInput === String(preset.value)
 
-            return (
-              <Button
-                key={preset.label}
-                type="button"
-                variant={isSelected ? 'default' : 'outline'}
-                size="sm"
-                className="min-w-16"
-                disabled={splitMethod !== 'duration'}
-                onClick={() => onDurationPresetChange(preset.value)}
-              >
-                {preset.label}
-              </Button>
-            )
-          })}
+              return (
+                <Button
+                  key={preset.label}
+                  type="button"
+                  variant={isSelected ? 'default' : 'outline'}
+                  size="sm"
+                  className={cn(
+                    'min-w-16 font-mono text-xs',
+                    isSelected && 'shadow-xs',
+                  )}
+                  onClick={() => onDurationPresetChange(preset.value)}
+                >
+                  {preset.label}
+                </Button>
+              )
+            })}
+          </div>
+
+          {isCustomDuration && (
+            <div className="space-y-1.5 pt-1">
+              <div className="flex items-center gap-2 max-w-xs">
+                <Input
+                  type="number"
+                  min="0.1"
+                  step="0.1"
+                  value={durationInput}
+                  placeholder="e.g. 15.5"
+                  aria-label="Custom clip duration in seconds"
+                  aria-invalid={Boolean(durationError)}
+                  onChange={(event) => onDurationChange(event.target.value)}
+                  className="font-mono text-sm"
+                />
+                <span className="text-xs font-semibold text-slate-500">seconds</span>
+              </div>
+            </div>
+          )}
+
+          {durationError && (
+            <div className="flex items-center gap-1.5 text-xs text-red-600">
+              <AlertCircle className="size-3.5 shrink-0" />
+              <span>{durationError}</span>
+            </div>
+          )}
         </div>
-
-        {isCustomDuration && splitMethod === 'duration' && (
-          <Input
-            type="number"
-            min="0.1"
-            step="0.1"
-            value={durationInput}
-            placeholder="Duration in seconds"
-            aria-label="Custom clip duration in seconds"
-            aria-invalid={Boolean(durationError)}
-            onChange={(event) => onDurationChange(event.target.value)}
-          />
-        )}
-
-        {splitMethod === 'duration' && durationError && (
-          <p className="text-xs text-red-600">{durationError}</p>
-        )}
-      </div>
+      )}
     </fieldset>
   )
 }
+

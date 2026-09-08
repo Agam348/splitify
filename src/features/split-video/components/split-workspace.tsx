@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Scissors } from 'lucide-react'
+import { Scissors, Loader2, Sparkles, Monitor } from 'lucide-react'
 
 import { AppHeader } from '../../../components/layout/app-header'
 import { Button } from '../../../components/ui/button'
@@ -53,31 +53,39 @@ export function SplitWorkspace() {
   const isDesktop = typeof window !== 'undefined' && Boolean(window.splitify)
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
       <AppHeader />
 
       {!isDesktop && (
-        <div className="border-b border-amber-200 bg-amber-50 px-6 py-2.5 text-center text-xs font-medium text-amber-800">
-          💻 <strong>Browser Preview Mode:</strong> You are viewing Splitify in a standard web browser. Real-time lossless video splitting and native file access run inside the <strong>Splitify Desktop Application</strong> window.
+        <div className="border-b border-amber-200/80 bg-gradient-to-r from-amber-50 via-amber-100/40 to-amber-50 px-6 py-2.5 text-center text-xs font-medium text-amber-900 shadow-2xs">
+          <div className="flex items-center justify-center gap-2">
+            <Monitor className="size-4 text-amber-700 shrink-0" />
+            <span>
+              <strong>Web Preview Mode:</strong> Native video stream cutting and OS file access are active inside the <strong>Splitify Desktop App</strong>.
+            </span>
+          </div>
         </div>
       )}
 
-      <main className="mx-auto w-full max-w-5xl px-6 py-8">
-        <div className="mb-7">
-          <p className="text-sm font-semibold text-primary">
-            New split project
-          </p>
+      <main className="mx-auto w-full max-w-4xl px-6 py-10">
+        <div className="mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200/70 bg-indigo-50/70 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-indigo-700 shadow-2xs">
+            <Sparkles className="size-3 text-indigo-600" />
+            <span>Lossless Engine</span>
+            <span>•</span>
+            <span>Fast Stream Copy</span>
+          </div>
 
-          <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-950">
-            Prepare your video clips
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            Split Master Video
           </h1>
 
-          <p className="mt-2 text-sm text-muted-foreground">
-            Choose a video and configure how you want it divided.
+          <p className="mt-2 text-sm text-slate-500 max-w-xl">
+            Slice high-bitrate recordings into exact uniform segments without quality loss or re-encoding time.
           </p>
         </div>
 
-        <div className="space-y-5">
+        <div className="space-y-6">
           <VideoDropzone
             error={validation.fieldErrors.video}
             isReadingMetadata={isReadingMetadata}
@@ -85,21 +93,22 @@ export function SplitWorkspace() {
             selectedVideoPath={selectedVideoPath}
             onBrowseVideo={selectVideo}
           />
+
           <VideoInformation
             isLoading={isReadingMetadata}
             metadata={metadata}
             error={metadataError}
           />
 
-          <Card className="shadow-soft">
-            <CardContent className="space-y-7 p-6">
+          <Card className="border-slate-200/80 shadow-card">
+            <CardContent className="space-y-7 p-6 sm:p-8">
               <ProjectDetails
                 error={validation.fieldErrors.projectName}
                 projectName={configuration.projectName}
                 onProjectNameChange={configuration.setProjectName}
               />
 
-              <div className="h-px bg-slate-100" />
+              <div className="border-t border-slate-100" />
 
               <SplitMethod
                 durationError={validation.fieldErrors.splitDuration}
@@ -114,7 +123,7 @@ export function SplitWorkspace() {
                 onSplitMethodChange={configuration.setSplitMethod}
               />
 
-              <div className="h-px bg-slate-100" />
+              <div className="border-t border-slate-100" />
 
               <OutputFolder
                 error={
@@ -129,15 +138,15 @@ export function SplitWorkspace() {
               />
 
               {validation.fieldWarnings.outputFilename && (
-                <p className="text-sm text-amber-700">
-                  {validation.fieldWarnings.outputFilename} Unique names will be used.
-                </p>
+                <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
+                  {validation.fieldWarnings.outputFilename} Unique filenames will be automatically allocated.
+                </div>
               )}
 
               <Button
                 type="button"
                 size="lg"
-                className="w-full gap-2"
+                className="w-full gap-2.5 h-12 text-base font-bold shadow-md shadow-indigo-600/20"
                 disabled={
                   validation.isValidating ||
                   !validation.isValid ||
@@ -175,14 +184,23 @@ export function SplitWorkspace() {
                   }
                 }}
               >
-                <Scissors className="size-4" />
-                {splitting.isProcessing ? 'Splitting Video...' : 'Split Video'}
+                {splitting.isProcessing ? (
+                  <>
+                    <Loader2 className="size-5 animate-spin" />
+                    <span>Splitting Video...</span>
+                  </>
+                ) : (
+                  <>
+                    <Scissors className="size-5" />
+                    <span>Split Video</span>
+                  </>
+                )}
               </Button>
 
               <ProcessingResult result={splitting.result} />
 
               {validation.error && (
-                <p className="text-center text-xs text-red-600">
+                <p className="text-center text-xs font-medium text-red-600">
                   {validation.error}
                 </p>
               )}

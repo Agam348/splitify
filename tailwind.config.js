@@ -4,6 +4,10 @@ export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -24,12 +28,17 @@ export default {
         },
       },
       borderRadius: {
+        '2xl': '1rem',
+        '3xl': '1.25rem',
+        xl: '0.875rem',
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
       boxShadow: {
-        soft: '0 18px 60px -24px rgb(15 23 42 / 0.22)',
+        soft: '0 1px 3px 0 rgb(0 0 0 / 0.04), 0 10px 25px -5px rgb(15 23 42 / 0.05)',
+        elevated: '0 20px 40px -15px rgb(15 23 42 / 0.08)',
+        glow: '0 0 25px -5px rgba(99, 102, 241, 0.35)',
       },
     },
   },
