@@ -5,7 +5,7 @@ export function AppHeader() {
     <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
         <div className="flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-700 text-white shadow-sm shadow-indigo-500/25 ring-1 ring-indigo-500/20">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-sm shadow-blue-500/25 ring-1 ring-blue-500/20">
             <Scissors
               className="size-4.5"
               strokeWidth={2.3}
@@ -17,7 +17,7 @@ export function AppHeader() {
               <span className="text-base font-extrabold tracking-tight text-slate-900">
                 Splitify
               </span>
-              <span className="rounded-md bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700 font-mono">
+              <span className="rounded-md bg-blue-50 px-1.5 py-0.5 text-[10px] font-semibold text-blue-700 font-mono">
                 v0.1.0
               </span>
             </div>

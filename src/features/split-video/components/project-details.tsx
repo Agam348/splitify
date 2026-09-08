@@ -19,12 +19,12 @@ export function ProjectDetails({
     <div className="space-y-2.5">
       <div className="flex items-center justify-between">
         <Label htmlFor="project-name" className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-700">
-          <Tag className="size-3.5 text-indigo-500" />
+          <Tag className="size-3.5 text-blue-600" />
           <span>Project Name / Prefix</span>
         </Label>
         
         <div className="flex items-center gap-1 text-[11px] text-slate-400 font-mono">
-          <Sparkles className="size-3 text-indigo-400" />
+          <Sparkles className="size-3 text-blue-500" />
           <span>Pattern: <span className="text-slate-600 font-medium">{previewName}_001.ext</span></span>
         </div>
       </div>

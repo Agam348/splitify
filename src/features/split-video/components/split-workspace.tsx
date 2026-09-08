@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Scissors, Loader2, Sparkles, Monitor } from 'lucide-react'
+import { Scissors, Loader2, Monitor } from 'lucide-react'
 
 import { AppHeader } from '../../../components/layout/app-header'
 import { Button } from '../../../components/ui/button'
@@ -53,7 +53,7 @@ export function SplitWorkspace() {
   const isDesktop = typeof window !== 'undefined' && Boolean(window.splitify)
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 selection:bg-blue-100 selection:text-blue-900">
       <AppHeader />
 
       {!isDesktop && (
@@ -69,14 +69,7 @@ export function SplitWorkspace() {
 
       <main className="mx-auto w-full max-w-4xl px-6 py-10">
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200/70 bg-indigo-50/70 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-indigo-700 shadow-2xs">
-            <Sparkles className="size-3 text-indigo-600" />
-            <span>Lossless Engine</span>
-            <span>•</span>
-            <span>Fast Stream Copy</span>
-          </div>
-
-          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
             Split Master Video
           </h1>
 
@@ -146,7 +139,7 @@ export function SplitWorkspace() {
               <Button
                 type="button"
                 size="lg"
-                className="w-full gap-2.5 h-12 text-base font-bold shadow-md shadow-indigo-600/20"
+                className="w-full gap-2.5 h-12 text-base font-bold shadow-md shadow-blue-600/20"
                 disabled={
                   validation.isValidating ||
                   !validation.isValid ||

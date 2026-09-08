@@ -32,15 +32,15 @@ export function VideoDropzone({
 
   if (selectedVideoPath) {
     return (
-      <section className="relative overflow-hidden rounded-2xl border border-indigo-200/80 bg-gradient-to-b from-indigo-50/40 via-white to-white p-6 shadow-sm">
+      <section className="relative overflow-hidden rounded-2xl border border-blue-200/80 bg-gradient-to-b from-blue-50/40 via-white to-white p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4 min-w-0">
-            <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-sm shadow-indigo-500/25">
+            <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm shadow-blue-500/25">
               <FileCheck2 className="size-6" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="rounded bg-indigo-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-indigo-700">
+                <span className="rounded bg-blue-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-blue-700">
                   Master Source
                 </span>
                 <span className="flex items-center gap-1 text-xs font-medium text-emerald-600">
@@ -81,8 +81,8 @@ export function VideoDropzone({
   }
 
   return (
-    <section className="group relative overflow-hidden rounded-2xl border-2 border-dashed border-slate-200/90 bg-gradient-to-b from-white via-slate-50/40 to-slate-50/80 px-6 py-10 text-center shadow-card transition-all duration-200 hover:border-indigo-400 hover:bg-slate-50/60">
-      <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 ring-4 ring-indigo-50/50 shadow-2xs transition-transform duration-200 group-hover:scale-105">
+    <section className="group relative overflow-hidden rounded-2xl border-2 border-dashed border-slate-200/90 bg-gradient-to-b from-white via-slate-50/40 to-slate-50/80 px-6 py-10 text-center shadow-card transition-all duration-200 hover:border-blue-400 hover:bg-slate-50/60">
+      <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 ring-4 ring-blue-50/50 shadow-2xs transition-transform duration-200 group-hover:scale-105">
         <UploadCloud className="size-7" />
       </div>
 

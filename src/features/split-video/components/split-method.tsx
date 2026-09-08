@@ -39,7 +39,7 @@ export function SplitMethod({
     <fieldset className="space-y-4">
       <div className="flex items-center justify-between">
         <legend className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-700">
-          <Sliders className="size-3.5 text-indigo-500" />
+          <Sliders className="size-3.5 text-blue-600" />
           <span>Splitting Strategy</span>
         </legend>
         <span className="text-xs text-slate-400">Choose interval mode</span>
@@ -51,7 +51,7 @@ export function SplitMethod({
           className={cn(
             'group relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
             isDuration
-              ? 'border-indigo-600 bg-indigo-50/40 shadow-xs ring-1 ring-indigo-500/20'
+              ? 'border-blue-600 bg-blue-50/40 shadow-xs ring-1 ring-blue-500/20'
               : 'border-slate-200/80 bg-white hover:border-slate-300 hover:bg-slate-50/50',
           )}
         >
@@ -67,14 +67,14 @@ export function SplitMethod({
             className={cn(
               'mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border transition-all',
               isDuration
-                ? 'border-indigo-600 bg-indigo-600'
+                ? 'border-blue-600 bg-blue-600'
                 : 'border-slate-300 bg-white group-hover:border-slate-400',
             )}
           >
             {isDuration && <div className="size-1.5 rounded-full bg-white" />}
           </div>
 
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
             <Clock3 className="size-4.5" />
           </div>
 
@@ -93,7 +93,7 @@ export function SplitMethod({
           className={cn(
             'group relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
             isEqualParts
-              ? 'border-indigo-600 bg-indigo-50/40 shadow-xs ring-1 ring-indigo-500/20'
+              ? 'border-blue-600 bg-blue-50/40 shadow-xs ring-1 ring-blue-500/20'
               : 'border-slate-200/80 bg-white hover:border-slate-300 hover:bg-slate-50/50',
           )}
         >
@@ -109,7 +109,7 @@ export function SplitMethod({
             className={cn(
               'mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border transition-all',
               isEqualParts
-                ? 'border-indigo-600 bg-indigo-600'
+                ? 'border-blue-600 bg-blue-600'
                 : 'border-slate-300 bg-white group-hover:border-slate-400',
             )}
           >
