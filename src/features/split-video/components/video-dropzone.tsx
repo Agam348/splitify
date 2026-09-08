@@ -90,10 +90,6 @@ export function VideoDropzone({
         Drop master video to split
       </h2>
 
-      <p className="mt-1 text-xs text-slate-500 max-w-sm mx-auto">
-        Lossless splitting without quality loss. All video frames are preserved offline on your device.
-      </p>
-
       <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
         {SUPPORTED_FORMATS.map((ext) => (
           <span

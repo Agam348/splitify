@@ -1,4 +1,4 @@
-import { Tag, Sparkles } from 'lucide-react'
+import { Tag } from 'lucide-react'
 import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
 
@@ -13,21 +13,12 @@ export function ProjectDetails({
   projectName,
   onProjectNameChange,
 }: ProjectDetailsProps) {
-  const previewName = projectName.trim() ? projectName.trim() : 'clip'
-
   return (
     <div className="space-y-2.5">
-      <div className="flex items-center justify-between">
-        <Label htmlFor="project-name" className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-700">
-          <Tag className="size-3.5 text-blue-600" />
-          <span>Project Name / Prefix</span>
-        </Label>
-        
-        <div className="flex items-center gap-1 text-[11px] text-slate-400 font-mono">
-          <Sparkles className="size-3 text-blue-500" />
-          <span>Pattern: <span className="text-slate-600 font-medium">{previewName}_001.ext</span></span>
-        </div>
-      </div>
+      <Label htmlFor="project-name" className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-700">
+        <Tag className="size-3.5 text-blue-600" />
+        <span>Project Name / Prefix</span>
+      </Label>
 
       <Input
         id="project-name"
@@ -38,9 +29,11 @@ export function ProjectDetails({
         className="font-medium text-slate-900"
       />
 
-      <p className={error ? 'text-xs text-red-600' : 'text-xs text-slate-400'}>
-        {error ?? 'Each split clip is saved with this prefix followed by its segment index.'}
-      </p>
+      {error && (
+        <p className="text-xs text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   )
 }

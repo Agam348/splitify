@@ -72,10 +72,6 @@ export function SplitWorkspace() {
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
             Split Master Video
           </h1>
-
-          <p className="mt-2 text-sm text-slate-500 max-w-xl">
-            Slice high-bitrate recordings into exact uniform segments without quality loss or re-encoding time.
-          </p>
         </div>
 
         <div className="space-y-6">

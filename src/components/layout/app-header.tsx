@@ -39,12 +39,6 @@ export function AppHeader() {
             <span className="text-xs font-bold tracking-tight text-slate-800">
               Private &amp; Offline
             </span>
-
-            <span className="h-3 w-px bg-slate-200/80" />
-
-            <span className="rounded-full bg-emerald-50 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-700 border border-emerald-200/50">
-              100% Local
-            </span>
           </div>
         </div>
       </div>
