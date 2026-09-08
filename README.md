@@ -28,20 +28,21 @@ Splitify makes dividing large videos effortless. Unlike standard video editors o
 ## 🚀 How to Run & Use Splitify
 
 > [!IMPORTANT]
-> **Can't find the `.exe` file?**
-> If you clicked the green **Code ➔ Download ZIP** button, you downloaded the **raw source code**, not the compiled desktop installer. Git repositories only store source code. Choose one of the two options below to run the app:
+> **Can't find the `.exe` or desktop installer?**
+> If you clicked the green **Code ➔ Download ZIP** button on GitHub, you downloaded the **raw source code**, not the compiled desktop app. Git repositories only store source code. Choose one of the two options below:
 
 ---
 
 ### Option 1: Download the Ready-to-Run Desktop App (Easiest — No Setup)
 
-If you simply want to use Splitify without installing Node.js or typing any commands:
+If you simply want to use Splitify without installing Node.js or typing any terminal commands:
 
-1. Go to the **[Releases](https://github.com/Agam348/splitify/releases)** page on GitHub.
+1. Go to the **[Releases](https://github.com/Agam348/splitify/releases)** page.
 2. Under **Assets**, click to download the installer for your operating system:
-   - 🪟 **Windows**: `Splitify-Windows-0.1.0-Setup.exe`
-   - 🍎 **macOS**: `Splitify-Mac-0.1.0-Installer.dmg`
-   - 🐧 **Linux**: `Splitify-Linux-0.1.0.AppImage`
+   - 🪟 **Windows**: [`Splitify-Windows-0.1.0-Setup.exe`](https://github.com/Agam348/splitify/releases/download/v0.1.0/Splitify-Windows-0.1.0-Setup.exe) (158 MB)
+   - 🍎 **macOS (Apple Silicon M1/M2/M3/M4)**: [`Splitify-Mac-0.1.0-arm64-Installer.dmg`](https://github.com/Agam348/splitify/releases/download/v0.1.0/Splitify-Mac-0.1.0-arm64-Installer.dmg) (130 MB)
+   - 🍎 **macOS (Intel)**: [`Splitify-Mac-0.1.0-x64-Installer.dmg`](https://github.com/Agam348/splitify/releases/download/v0.1.0/Splitify-Mac-0.1.0-x64-Installer.dmg) (127 MB)
+   - 🐧 **Linux**: [`Splitify-Linux-0.1.0.AppImage`](https://github.com/Agam348/splitify/releases/download/v0.1.0/Splitify-Linux-0.1.0.AppImage) (162 MB)
 3. Double-click the downloaded file to install and open Splitify immediately!
 
 ---
@@ -51,7 +52,7 @@ If you simply want to use Splitify without installing Node.js or typing any comm
 If you downloaded the ZIP file or cloned the repository with Git:
 
 #### 1. Requirements
-Ensure you have **[Node.js](https://nodejs.org/)** (version 18 or higher) installed on your computer.
+Ensure you have **[Node.js](https://nodejs.org/)** (v18 or higher) installed on your computer.
 
 #### 2. Open the Project Folder
 1. Right-click the downloaded ZIP file and click **Extract All...**
@@ -63,22 +64,22 @@ Ensure you have **[Node.js](https://nodejs.org/)** (version 18 or higher) instal
 npm install
 ```
 
-#### 4. Launch or Create the `.exe`
+#### 4. Launch or Create the Desktop App
 - **To open the desktop app directly:**
   ```bash
   npm run dev
   ```
   *The desktop window will open immediately.*
 
-- **To create your own standalone `.exe` installer:**
+- **To create your own standalone installer:**
   ```bash
   npm run build
   ```
-  *Once the build finishes, open the newly created `release/0.1.0/` folder on your computer. Your `Splitify-Windows-0.1.0-Setup.exe` installer will be right there!*
+  *Once the build finishes, open the newly created `release/0.1.0/` folder on your computer. Your installer will be right there ready to install!*
 
 ---
 
-### 🎬 2. Simple Step-by-Step Usage Guide
+### 🎬 Simple Step-by-Step Usage Guide
 
 ```
 [1. Select Video] ➔ [2. Set Name & Method] ➔ [3. Choose Output Folder] ➔ [4. Split!]
@@ -102,7 +103,7 @@ npm install
 
 ## 🛠️ How to Run This Code (For Developers)
 
-If you are a developer and want to inspect the source code, contribute, or build Splitify from scratch, follow these instructions.
+If you are a developer and want to inspect the source code, contribute, or build Splitify from scratch:
 
 ### 📋 Prerequisites
 
@@ -157,7 +158,7 @@ This script will:
 1. Validate TypeScript types via `tsc`.
 2. Bundle the React renderer and Electron main/preload scripts using `vite build`.
 3. Package the native application and static FFmpeg/FFprobe binaries using `electron-builder`.
-4. Output ready-to-distribute setup files into the `release/` directory.
+4. Output ready-to-distribute setup files into the `release/0.1.0/` directory.
 
 ---
 
@@ -165,37 +166,81 @@ This script will:
 
 ```
 Split_Video/
-├── electron/                    # Electron main process & Node.js backend
-│   ├── main.ts                  # Main process entry point & window manager
-│   ├── preload.ts               # Context-isolated IPC bridge (window.splitify)
-│   ├── ipc/                     # Strongly typed IPC channel handlers
-│   │   ├── dialog.ipc.ts        # Native file and folder dialogs
-│   │   ├── media.ipc.ts         # Video metadata extraction handlers
-│   │   ├── processing.ipc.ts    # Splitting execution & progress event streaming
-│   │   ├── settings.ipc.ts      # Configuration persistence (electron-store)
-│   │   └── validation.ipc.ts    # User input and filesystem validation
-│   └── services/                # Backend services & media engines
-│       ├── ffmpeg/              # FFmpeg process management, stream copy & parsing
-│       ├── media.service.ts     # FFprobe metadata parser
-│       └── processing.service.ts# Job orchestration, locking & cancellation
-├── shared/                      # Contracts, types, and schemas shared between Main & Renderer
-│   ├── ipc/                     # API channel definitions & interface types
-│   ├── media/                   # Supported video extensions
-│   ├── processing/              # Progress events, requests, and result models
-│   └── validation/              # Pure validation rules & filename sanitization
-├── src/                         # Renderer process (React 18 frontend)
-│   ├── main.tsx                 # React DOM mount point
-│   ├── App.tsx                  # Root application component
-│   ├── index.css                # Global CSS & Tailwind styling
-│   ├── components/              # Shared UI components (Button, Card, Input, Label)
-│   └── features/split-video/    # Splitify feature modules
-│       ├── components/          # Dropzone, VideoInfo, SplitMethod, Progress, etc.
-│       ├── hooks/               # Custom hooks (picker, validation, splitting, settings)
-│       └── utils/               # Metadata formatters (time, bytes)
-├── resources/                   # Application icons (.ico, .icns, .png)
-├── electron-builder.json5       # Desktop packaging & installer configuration
-├── vite.config.ts               # Vite configuration with electron-vite plugin
-└── package.json                 # Project manifest & scripts
+├── .github/
+│   └── workflows/
+│       └── build.yml             # Automated multi-platform CI/CD matrix (Win, Mac, Linux)
+├── electron/                     # Electron main process & Node.js backend
+│   ├── electron-env.d.ts         # Environment declarations for Vite Electron
+│   ├── ipc/                      # Strongly typed IPC channel handlers
+│   │   ├── dialog.ipc.ts         # Native file and folder picker dialogs
+│   │   ├── ipc-security.ts       # IPC sender validation & webFrame guards
+│   │   ├── media.ipc.ts          # Video metadata extraction handlers
+│   │   ├── processing.ipc.ts     # Splitting execution & progress event streaming
+│   │   ├── settings.ipc.ts       # Configuration persistence (electron-store)
+│   │   └── validation.ipc.ts     # Asynchronous filesystem inspection IPC
+│   ├── main.ts                   # BrowserWindow manager, CSP security & app lifecycle
+│   ├── preload.ts                # Context-isolated secure IPC bridge (window.splitify)
+│   └── services/                 # Backend services & media engines
+│       ├── ffmpeg/               # FFmpeg stream-copy process management
+│       │   ├── ffmpeg-errors.ts  # Error categorization & exit code mapping
+│       │   ├── ffmpeg-path.ts    # Binary path resolver with POSIX permission enforcement
+│       │   ├── ffmpeg-process.ts # Child process spawner, stream parser & cancellation
+│       │   ├── ffmpeg.service.ts # High-level duration & equal parts splitting engine
+│       │   └── ffmpeg.types.ts   # FFmpeg event and options interfaces
+│       ├── media.service.ts      # FFprobe metadata parser
+│       ├── output-directory-inspector.ts # Directory access & writeability checker
+│       ├── processing.service.ts # Job orchestration, concurrency lock & cancellation
+│       └── settings.service.ts   # Safe local settings store
+├── shared/                       # Isomorphic TypeScript shared between Main & Renderer
+│   ├── ipc/                      # API channel definitions & interface types
+│   │   ├── api.ts                # Global SplitifyAPI contract
+│   │   ├── dialog.ts             # Dialog request & response models
+│   │   ├── media.ts              # Video metadata contracts
+│   │   ├── processing.ts         # Progress events & split result interfaces
+│   │   ├── settings.ts           # Settings store interfaces
+│   │   └── validation.ts         # Directory validation interfaces
+│   ├── media/
+│   │   └── video-formats.ts      # Supported video containers (mp4, mov, mkv, avi, webm)
+│   ├── processing/
+│   │   └── processing.types.ts   # Splitting method models ('duration' | 'equal-parts')
+│   └── validation/
+│       ├── file-name.ts          # Cross-platform safe filename sanitizer
+│       ├── validation.service.ts # Pure business validation logic
+│       └── validation.types.ts   # Validation field issues and warning types
+├── src/                          # Renderer process (React 18 frontend)
+│   ├── assets/                   # React SVGs & static assets
+│   ├── components/               # Radix UI + Tailwind design system
+│   │   ├── layout/
+│   │   │   └── app-header.tsx    # Header with emerald branding and Private & Offline badge
+│   │   └── ui/                   # Reusable atomic UI components (Button, Card, Input, Label)
+│   ├── features/split-video/     # Splitify main feature domain
+│   │   ├── components/           # Feature UI components
+│   │   │   ├── output-folder.tsx # Destination folder selector with collision warnings
+│   │   │   ├── processing-result.tsx # Post-splitting completion summary card
+│   │   │   ├── progress-section.tsx  # Granular progress bar with live clip counter
+│   │   │   ├── project-details.tsx   # Project naming input with automatic sanitization
+│   │   │   ├── split-method.tsx  # Dual mode selector (duration presets / equal parts)
+│   │   │   ├── split-workspace.tsx # Main workspace layout container
+│   │   │   ├── video-dropzone.tsx    # Drag-and-drop video upload zone
+│   │   │   └── video-information.tsx # Metadata display card (resolution, fps, size, format)
+│   │   ├── data/                 # Sample video placeholders
+│   │   ├── hooks/                # Custom React hooks
+│   │   │   ├── use-output-folder.ts
+│   │   │   ├── use-split-configuration.ts
+│   │   │   ├── use-split-validation.ts
+│   │   │   ├── use-video-picker.ts
+│   │   │   └── use-video-splitting.ts
+│   │   └── utils/                # Metadata formatters (time, bytes)
+│   ├── index.css                 # Tailwind CSS directives & emerald design tokens
+│   ├── lib/utils.ts              # Tailwind class merge utility (cn)
+│   ├── main.tsx                  # React DOM mount point
+│   ├── App.tsx                   # Root application component
+│   └── vite-env.d.ts             # Vite client types
+├── resources/                    # High-res icons (.ico, .icns, .png, .svg)
+├── public/                       # Static public web assets
+├── electron-builder.json5        # Multi-platform packaging config (NSIS, DMG, AppImage)
+├── vite.config.ts                # Vite configuration with electron-vite plugin
+└── package.json                  # Project manifest, scripts & dependencies
 ```
 
 ---
