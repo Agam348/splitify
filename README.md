@@ -1,6 +1,5 @@
 # Splitify ✂️
 
-[![Release](https://img.shields.io/badge/Release-v0.1.0-blue.svg)](https://github.com/Agam348/splitify/releases)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)]()
 [![Offline & Private](https://img.shields.io/badge/Privacy-100%25%20Offline-success.svg)]()
 [![Lossless](https://img.shields.io/badge/Quality-100%25%20Lossless-orange.svg)]()
@@ -28,28 +27,21 @@ Splitify makes dividing large videos effortless. Unlike standard video editors o
 
 ## 🚀 How to Download & Use This App (For Users)
 
-### 📥 1. Downloading Splitify
+### 📥 1. Getting the App
 
-Pre-built standalone installers are available on the **[Releases](https://github.com/Agam348/splitify/releases)** page:
+You can quickly get and run Splitify on your machine:
 
-| Operating System | Recommended Package | Description |
-| :--- | :--- | :--- |
-| **Windows** | `Splitify-Windows-0.1.0-Setup.exe` | Standard 64-bit installer (NSIS) |
-| **macOS** | `Splitify-Mac-0.1.0-Installer.dmg` | macOS disk image package |
-| **Linux** | `Splitify-Linux-0.1.0.AppImage` | Standalone executable AppImage |
+1. Click the green **Code** button at the top of this repository and click **Download ZIP** (or clone using Git).
+2. Extract the ZIP file on your computer.
+3. Open a terminal/command prompt in the extracted folder and run:
+   ```bash
+   npm install
+   npm run dev
+   ```
+   The Splitify desktop application will open immediately!
 
-### 💻 2. Installation
-
-- **Windows**:
-  1. Download `Splitify-Windows-0.1.0-Setup.exe`.
-  2. Double-click the installer and choose your preferred installation directory.
-  3. Launch **Splitify** from your Desktop shortcut or Start Menu.
-- **macOS**:
-  1. Download the `.dmg` file.
-  2. Drag and drop **Splitify** into your `Applications` folder.
-- **Linux**:
-  1. Make the `.AppImage` executable (`chmod +x Splitify-Linux-0.1.0.AppImage`).
-  2. Run the AppImage directly.
+> **Want a portable `.exe`?**
+> Run `npm run build` in the project folder, and your standalone Windows desktop app will be generated directly in the `release/` folder.
 
 ---
 
