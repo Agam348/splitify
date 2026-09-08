@@ -3,7 +3,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)]()
 [![Offline & Private](https://img.shields.io/badge/Privacy-100%25%20Offline-success.svg)]()
 [![Lossless](https://img.shields.io/badge/Quality-100%25%20Lossless-orange.svg)]()
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-emerald.svg)]()
 
 > **A fast, offline desktop application for splitting videos into clips without quality loss.**
 
@@ -25,27 +25,60 @@ Splitify makes dividing large videos effortless. Unlike standard video editors o
 
 ---
 
-## 🚀 How to Download & Use This App (For Users)
+## 🚀 How to Run & Use Splitify
 
-### 📥 1. Getting the App
-
-You can quickly get and run Splitify on your machine:
-
-1. Click the green **Code** button at the top of this repository and click **Download ZIP** (or clone using Git).
-2. Extract the ZIP file on your computer.
-3. Open a terminal/command prompt in the extracted folder and run:
-   ```bash
-   npm install
-   npm run dev
-   ```
-   The Splitify desktop application will open immediately!
-
-> **Want a portable `.exe`?**
-> Run `npm run build` in the project folder, and your standalone Windows desktop app will be generated directly in the `release/` folder.
+> [!IMPORTANT]
+> **Can't find the `.exe` file?**
+> If you clicked the green **Code ➔ Download ZIP** button, you downloaded the **raw source code**, not the compiled desktop installer. Git repositories only store source code. Choose one of the two options below to run the app:
 
 ---
 
-### 🎬 3. Simple Step-by-Step Usage Guide
+### Option 1: Download the Ready-to-Run Desktop App (Easiest — No Setup)
+
+If you simply want to use Splitify without installing Node.js or typing any commands:
+
+1. Go to the **[Releases](https://github.com/Agam348/splitify/releases)** page on GitHub.
+2. Under **Assets**, click to download the installer for your operating system:
+   - 🪟 **Windows**: `Splitify-Windows-0.1.0-Setup.exe`
+   - 🍎 **macOS**: `Splitify-Mac-0.1.0-Installer.dmg`
+   - 🐧 **Linux**: `Splitify-Linux-0.1.0.AppImage`
+3. Double-click the downloaded file to install and open Splitify immediately!
+
+---
+
+### Option 2: Run or Build from Source (If You Downloaded the ZIP)
+
+If you downloaded the ZIP file or cloned the repository with Git:
+
+#### 1. Requirements
+Ensure you have **[Node.js](https://nodejs.org/)** (version 18 or higher) installed on your computer.
+
+#### 2. Open the Project Folder
+1. Right-click the downloaded ZIP file and click **Extract All...**
+2. Open the extracted folder in your terminal / Command Prompt:
+   - On Windows: Open the folder, type `cmd` or `powershell` in the address bar at the top, and press **Enter**.
+
+#### 3. Install Dependencies
+```bash
+npm install
+```
+
+#### 4. Launch or Create the `.exe`
+- **To open the desktop app directly:**
+  ```bash
+  npm run dev
+  ```
+  *The desktop window will open immediately.*
+
+- **To create your own standalone `.exe` installer:**
+  ```bash
+  npm run build
+  ```
+  *Once the build finishes, open the newly created `release/0.1.0/` folder on your computer. Your `Splitify-Windows-0.1.0-Setup.exe` installer will be right there!*
+
+---
+
+### 🎬 2. Simple Step-by-Step Usage Guide
 
 ```
 [1. Select Video] ➔ [2. Set Name & Method] ➔ [3. Choose Output Folder] ➔ [4. Split!]
