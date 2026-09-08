@@ -27,18 +27,24 @@ export function AppHeader() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
-          <div className="hidden sm:flex items-center gap-1.5 rounded-full border border-slate-200/70 bg-slate-50/80 px-3 py-1 text-xs font-medium text-slate-600">
-            <ShieldCheck className="size-3.5 text-emerald-600" />
-            <span>100% Offline</span>
-          </div>
-
-          <div className="flex items-center gap-2 rounded-full border border-slate-200/70 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-2xs">
-            <span className="relative flex size-2">
+        <div className="flex items-center">
+          <div className="group inline-flex items-center gap-2.5 rounded-full border border-slate-200/90 bg-gradient-to-b from-white via-slate-50/40 to-slate-50 px-3.5 py-1.5 shadow-2xs ring-1 ring-slate-900/[0.04] backdrop-blur-sm transition-all duration-150 hover:border-slate-300 hover:shadow-xs select-none">
+            <span className="relative flex size-2 shrink-0">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
             </span>
-            <span>Local Engine Ready</span>
+
+            <ShieldCheck className="size-3.5 text-emerald-600 shrink-0" />
+
+            <span className="text-xs font-bold tracking-tight text-slate-800">
+              Private &amp; Offline
+            </span>
+
+            <span className="h-3 w-px bg-slate-200/80" />
+
+            <span className="rounded-full bg-emerald-50 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-700 border border-emerald-200/50">
+              100% Local
+            </span>
           </div>
         </div>
       </div>
