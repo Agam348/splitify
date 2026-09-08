@@ -1,4 +1,5 @@
 import { execFile } from 'node:child_process'
+import { chmodSync, existsSync } from 'node:fs'
 import { stat } from 'node:fs/promises'
 import path from 'node:path'
 
@@ -41,23 +42,34 @@ const supportedFfprobePackages = new Set([
 function getFfprobePath() {
   const executable = process.platform === 'win32' ? 'ffprobe.exe' : 'ffprobe'
 
+  let resolvedPath: string
   if (app.isPackaged) {
-    return path.join(process.resourcesPath, 'ffprobe', executable)
+    resolvedPath = path.join(process.resourcesPath, 'ffprobe', executable)
+  } else {
+    const packageName = `${process.platform}-${process.arch}`
+
+    if (!supportedFfprobePackages.has(packageName)) {
+      throw new Error(`FFprobe is unavailable for ${packageName}.`)
+    }
+
+    resolvedPath = path.join(
+      process.env.APP_ROOT || '',
+      'node_modules',
+      '@ffprobe-installer',
+      packageName,
+      executable,
+    )
   }
 
-  const packageName = `${process.platform}-${process.arch}`
-
-  if (!supportedFfprobePackages.has(packageName)) {
-    throw new Error(`FFprobe is unavailable for ${packageName}.`)
+  if (process.platform !== 'win32' && existsSync(resolvedPath)) {
+    try {
+      chmodSync(resolvedPath, 0o755)
+    } catch {
+      // Ignore if filesystem is read-only or permission already set
+    }
   }
 
-  return path.join(
-    process.env.APP_ROOT || '',
-    'node_modules',
-    '@ffprobe-installer',
-    packageName,
-    executable,
-  )
+  return resolvedPath
 }
 
 function parseFrameRate(value: string | undefined) {

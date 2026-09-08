@@ -14,10 +14,26 @@
   ],
   "mac": {
     "icon": "resources/icon.icns",
-    "target": [
-      "dmg"
+    "extraResources": [
+      {
+        "from": "node_modules/@ffprobe-installer/darwin-${arch}/ffprobe",
+        "to": "ffprobe/ffprobe"
+      },
+      {
+        "from": "node_modules/ffmpeg-static/ffmpeg",
+        "to": "ffmpeg/ffmpeg"
+      }
     ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
+    "target": [
+      {
+        "target": "dmg",
+        "arch": [
+          "x64",
+          "arm64"
+        ]
+      }
+    ],
+    "artifactName": "${productName}-Mac-${version}-${arch}-Installer.${ext}"
   },
   "win": {
     "icon": "resources/icon.ico",
@@ -49,8 +65,23 @@
   },
   "linux": {
     "icon": "resources/icon.png",
+    "extraResources": [
+      {
+        "from": "node_modules/@ffprobe-installer/linux-x64/ffprobe",
+        "to": "ffprobe/ffprobe"
+      },
+      {
+        "from": "node_modules/ffmpeg-static/ffmpeg",
+        "to": "ffmpeg/ffmpeg"
+      }
+    ],
     "target": [
-      "AppImage"
+      {
+        "target": "AppImage",
+        "arch": [
+          "x64"
+        ]
+      }
     ],
     "artifactName": "${productName}-Linux-${version}.${ext}"
   }

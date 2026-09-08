@@ -73,8 +73,8 @@ function setupSessionSecurity() {
 }
 
 function createWindow() {
-  // Remove default application menu in production to prevent shortcut exposure
-  if (app.isPackaged) {
+  // Remove default application menu on Windows/Linux in production; preserve on macOS for native shortcuts (Cmd+C, Cmd+V, Cmd+Q)
+  if (app.isPackaged && process.platform !== 'darwin') {
     Menu.setApplicationMenu(null)
   }
 
