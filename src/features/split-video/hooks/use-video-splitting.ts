@@ -12,6 +12,19 @@ export function useVideoSplitting() {
   const [progress, setProgress] = useState<SplitProgressEvent | null>(null)
 
   const splitByDuration = useCallback(async (request: DurationSplitRequest) => {
+    if (!window.splitify?.processing) {
+      setResult({
+        success: false,
+        error: {
+          code: 'PROCESSOR_UNAVAILABLE',
+          message: 'Video processing requires the Splitify desktop application.',
+        },
+        outputFolder: request.outputFolder,
+        executionTimeMs: 0,
+      })
+      return
+    }
+
     setIsProcessing(true)
     setResult(null)
     setProgress(null)
@@ -37,7 +50,9 @@ export function useVideoSplitting() {
   }, [])
 
   const cancel = useCallback(() => {
-    void window.splitify.processing.cancel()
+    if (window.splitify?.processing) {
+      void window.splitify.processing.cancel()
+    }
   }, [])
 
   return {

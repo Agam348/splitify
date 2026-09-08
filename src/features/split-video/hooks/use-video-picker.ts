@@ -10,6 +10,11 @@ export function useVideoPicker() {
   const [metadataError, setMetadataError] = useState<string | null>(null)
 
   const selectVideo = useCallback(async () => {
+    if (!window.splitify?.dialogs) {
+      setMetadataError('Video selection requires the Splitify desktop application.')
+      return
+    }
+
     setIsSelectingVideo(true)
 
     let filePath: string | null = null

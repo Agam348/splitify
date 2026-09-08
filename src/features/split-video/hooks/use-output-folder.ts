@@ -9,6 +9,11 @@ export function useOutputFolder() {
   useEffect(() => {
     let isActive = true
 
+    if (!window.splitify?.settings) {
+      setIsLoading(false)
+      return
+    }
+
     window.splitify.settings
       .getLastOutputDirectory()
       .then((directory) => {
@@ -27,6 +32,11 @@ export function useOutputFolder() {
   }, [])
 
   const selectOutputFolder = useCallback(async () => {
+    if (!window.splitify?.settings) {
+      setError('Folder selection is only supported in the desktop app.')
+      return
+    }
+
     setIsSelecting(true)
     setError(null)
 

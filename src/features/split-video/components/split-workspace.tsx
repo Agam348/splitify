@@ -50,10 +50,17 @@ export function SplitWorkspace() {
     selectedVideoPath,
   ])
   const validation = useSplitValidation(validationInput)
+  const isDesktop = typeof window !== 'undefined' && Boolean(window.splitify)
 
   return (
     <div className="min-h-screen bg-slate-50">
       <AppHeader />
+
+      {!isDesktop && (
+        <div className="border-b border-amber-200 bg-amber-50 px-6 py-2.5 text-center text-xs font-medium text-amber-800">
+          💻 <strong>Browser Preview Mode:</strong> You are viewing Splitify in a standard web browser. Real-time lossless video splitting and native file access run inside the <strong>Splitify Desktop Application</strong> window.
+        </div>
+      )}
 
       <main className="mx-auto w-full max-w-5xl px-6 py-8">
         <div className="mb-7">

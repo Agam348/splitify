@@ -16,6 +16,11 @@ export function useSplitValidation(input: SplitValidationInput) {
     setError(null)
 
     const timeout = window.setTimeout(() => {
+      if (!window.splitify?.validation) {
+        if (isActive) setIsValidating(false)
+        return
+      }
+
       window.splitify.validation
         .validateSplitConfiguration(input)
         .then((validationResult) => {
