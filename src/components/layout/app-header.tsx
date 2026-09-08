@@ -13,17 +13,9 @@ export function AppHeader() {
           </div>
 
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-base font-extrabold tracking-tight text-slate-900">
-                Splitify
-              </span>
-              <span className="rounded-md bg-blue-50 px-1.5 py-0.5 text-[10px] font-semibold text-blue-700 font-mono">
-                v0.1.0
-              </span>
-            </div>
-            <p className="text-xs font-normal text-slate-500">
-              Lossless Master Video Cutter
-            </p>
+            <span className="text-base font-extrabold tracking-tight text-slate-900">
+              Splitify
+            </span>
           </div>
         </div>
 

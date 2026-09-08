@@ -63,7 +63,7 @@ export function OutputFolder({
         </div>
       ) : (
         <p className="text-xs text-slate-400">
-          All generated segments will be saved losslessly into this folder.
+          All generated segments will be saved into this folder.
         </p>
       )}
     </div>

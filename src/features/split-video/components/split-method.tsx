@@ -49,7 +49,7 @@ export function SplitMethod({
         {/* By Duration Card */}
         <label
           className={cn(
-            'group relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
+            'group relative flex cursor-pointer items-center gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
             isDuration
               ? 'border-blue-600 bg-blue-50/40 shadow-xs ring-1 ring-blue-500/20'
               : 'border-slate-200/80 bg-white hover:border-slate-300 hover:bg-slate-50/50',
@@ -65,7 +65,7 @@ export function SplitMethod({
 
           <div
             className={cn(
-              'mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border transition-all',
+              'flex size-4 shrink-0 items-center justify-center rounded-full border transition-all',
               isDuration
                 ? 'border-blue-600 bg-blue-600'
                 : 'border-slate-300 bg-white group-hover:border-slate-400',
@@ -82,16 +82,13 @@ export function SplitMethod({
             <span className="block text-sm font-bold text-slate-900">
               Fixed Duration
             </span>
-            <span className="mt-0.5 block text-xs text-slate-500">
-              Chop into clips of uniform lengths (e.g. 30s reels, 60s shorts)
-            </span>
           </div>
         </label>
 
         {/* Equal Parts Card */}
         <label
           className={cn(
-            'group relative flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
+            'group relative flex cursor-pointer items-center gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
             isEqualParts
               ? 'border-blue-600 bg-blue-50/40 shadow-xs ring-1 ring-blue-500/20'
               : 'border-slate-200/80 bg-white hover:border-slate-300 hover:bg-slate-50/50',
@@ -107,7 +104,7 @@ export function SplitMethod({
 
           <div
             className={cn(
-              'mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full border transition-all',
+              'flex size-4 shrink-0 items-center justify-center rounded-full border transition-all',
               isEqualParts
                 ? 'border-blue-600 bg-blue-600'
                 : 'border-slate-300 bg-white group-hover:border-slate-400',
@@ -124,24 +121,21 @@ export function SplitMethod({
             <span className="block text-sm font-bold text-slate-900">
               Equal Segments
             </span>
-            <span className="mt-0.5 block text-xs text-slate-500">
-              Divide full video into a target quantity of equal slices
-            </span>
 
             {isEqualParts && (
-              <div className="mt-3 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+              <div className="mt-2 flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                 <Input
                   aria-label="Number of equal parts"
                   type="number"
                   min="2"
                   max="1000"
-                  className="h-9 w-24 px-3 text-center font-mono font-semibold"
+                  className="h-8 w-20 px-2 text-center font-mono font-semibold"
                   value={equalPartsInput}
                   disabled={!isEqualParts}
                   aria-invalid={Boolean(equalPartsError)}
                   onChange={(event) => onEqualPartsChange(event.target.value)}
                 />
-                <span className="text-xs font-semibold text-slate-600">equal clips</span>
+                <span className="text-xs font-semibold text-slate-600">clips</span>
               </div>
             )}
           </div>
