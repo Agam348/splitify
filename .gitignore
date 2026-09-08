@@ -7,9 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependencies
+node_modules/
+
+# Build & Release Outputs
+dist/
+dist-electron/
+dist-ssr/
+release/
 *.local
 
 # Editor directories and files
@@ -17,39 +22,18 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# Build output
-dist/
-dist-electron/
-
-# Electron Builder
-release/
-
-# Node modules
-node_modules/
-
-# Logs
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Temporary
+# Temporary files
 *.tmp
+.splitify-job-*
 
-node_modules/
-dist/
-dist-electron/
-release/
-
-*.log
-*.tmp
-
-.DS_Store
-Thumbs.db
+# Internal Documentation (Private)
+README_INTERNAL.md
+README.internal.md
+*internal*.md

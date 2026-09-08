@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, Menu, session, shell } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
@@ -36,7 +36,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 // ├─┬─┬ dist
 // │ │ └── index.html
 // │ │
-// │ ├─┬ dist-electron
+// ├─┬ dist-electron
 // │ │ ├── main.js
 // │ │ └── preload.mjs
 // │
@@ -51,7 +51,35 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, 
 
 let win: BrowserWindow | null
 
+function setupSessionSecurity() {
+  // Reject all device and web permissions (camera, microphone, location, etc.)
+  session.defaultSession.setPermissionRequestHandler((_webContents, _permission, callback) => {
+    callback(false)
+  })
+
+  // Enforce Content-Security-Policy on all loaded resources
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    const csp = VITE_DEV_SERVER_URL
+      ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' ws://localhost:* http://localhost:*;"
+      : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none';"
+
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': [csp],
+      },
+    })
+  })
+}
+
 function createWindow() {
+  // Remove default application menu in production to prevent shortcut exposure
+  if (app.isPackaged) {
+    Menu.setApplicationMenu(null)
+  }
+
+  setupSessionSecurity()
+
   win = new BrowserWindow({
     icon: path.join(process.env.VITE_PUBLIC, 'icon.png'),
     webPreferences: {
@@ -59,8 +87,43 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: true,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
     },
   })
+
+  // Prevent opening child windows or popups; safely delegate http/https to system browser
+  win.webContents.setWindowOpenHandler(({ url }) => {
+    try {
+      const parsed = new URL(url)
+      if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+        void shell.openExternal(url)
+      }
+    } catch {
+      // Ignore malformed URLs
+    }
+    return { action: 'deny' }
+  })
+
+  // Prevent navigation away from the bundled app
+  win.webContents.on('will-navigate', (event, navigationUrl) => {
+    if (VITE_DEV_SERVER_URL && navigationUrl.startsWith(VITE_DEV_SERVER_URL)) {
+      return
+    }
+    event.preventDefault()
+  })
+
+  // Disallow embedding of webviews
+  win.webContents.on('will-attach-webview', (event) => {
+    event.preventDefault()
+  })
+
+  // Ensure DevTools cannot remain open in packaged production builds
+  if (app.isPackaged) {
+    win.webContents.on('devtools-opened', () => {
+      win?.webContents.closeDevTools()
+    })
+  }
 
   const mediaService = new MediaService()
   registerDialogIpc(win)

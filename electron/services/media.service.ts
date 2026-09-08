@@ -75,10 +75,13 @@ function runFfprobe(executable: string, filePath: string) {
   const args = [
     '-v',
     'error',
+    '-protocol_whitelist',
+    'file,crypto,data',
     '-print_format',
     'json',
     '-show_format',
     '-show_streams',
+    '--',
     filePath,
   ]
 
@@ -91,6 +94,7 @@ function runFfprobe(executable: string, filePath: string) {
         maxBuffer: 2 * 1024 * 1024,
         timeout: 15_000,
         windowsHide: true,
+        shell: false,
       },
       (error, stdout) => {
         if (error) {
@@ -105,10 +109,17 @@ function runFfprobe(executable: string, filePath: string) {
 }
 
 function isSupportedVideoPath(filePath: string) {
-  const extension = path.extname(filePath).slice(1).toLowerCase()
+  if (!filePath || typeof filePath !== 'string' || filePath.includes('\0')) {
+    return false
+  }
+
+  const normalized = path.normalize(filePath)
+  const baseName = path.basename(normalized)
+  const extension = path.extname(normalized).slice(1).toLowerCase()
 
   return (
-    path.isAbsolute(filePath) &&
+    path.isAbsolute(normalized) &&
+    !baseName.startsWith('-') &&
     supportedVideoExtensions.some((supported) => supported === extension)
   )
 }

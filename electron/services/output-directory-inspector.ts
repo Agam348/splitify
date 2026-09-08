@@ -6,6 +6,15 @@ import type { OutputDirectoryInspector } from '../../shared/validation/validatio
 export const inspectOutputDirectory: OutputDirectoryInspector = async (
   directory,
 ) => {
+  if (
+    !directory ||
+    typeof directory !== 'string' ||
+    directory.includes('\0') ||
+    directory.length > 4096
+  ) {
+    return { isAvailable: false, fileNames: [] }
+  }
+
   try {
     const directoryStats = await stat(directory)
 

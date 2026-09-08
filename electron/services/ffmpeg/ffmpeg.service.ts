@@ -25,11 +25,16 @@ const temporaryFilePattern = 'segment-%09d.mp4'
 const temporaryFileExpression = /^segment-(\d{9})\.mp4$/
 
 function normalizeAbsolutePath(value: string) {
-  if (!value || value.includes('\0') || !path.isAbsolute(value)) {
+  if (!value || typeof value !== 'string' || value.includes('\0') || !path.isAbsolute(value)) {
     throw new ServiceFailure('INVALID_PATH', 'A required path is invalid.')
   }
 
-  return path.normalize(value)
+  const normalized = path.normalize(value)
+  if (path.basename(normalized).startsWith('-')) {
+    throw new ServiceFailure('INVALID_PATH', 'Paths with filenames starting with hyphens are not allowed.')
+  }
+
+  return normalized
 }
 
 function escapeExpression(value: string) {
@@ -149,6 +154,7 @@ export class FFmpegService {
       const progressArgs = onProgress ? ['-progress', 'pipe:1'] : []
       const args = [
         '-hide_banner', '-loglevel', 'error', '-nostdin', '-n',
+        '-protocol_whitelist', 'file,crypto,data',
         ...progressArgs,
         '-i', inputPath,
         '-map', '0:v:0', '-map', '0:a?',

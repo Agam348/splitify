@@ -18,17 +18,36 @@ function isDurationSplitRequest(value: unknown): value is DurationSplitRequest {
 
   const hasBase =
     typeof request.inputPath === 'string' &&
+    request.inputPath.length > 0 &&
+    request.inputPath.length <= 4096 &&
+    !request.inputPath.includes('\0') &&
     typeof request.outputFolder === 'string' &&
-    typeof request.projectName === 'string'
+    request.outputFolder.length > 0 &&
+    request.outputFolder.length <= 4096 &&
+    !request.outputFolder.includes('\0') &&
+    typeof request.projectName === 'string' &&
+    request.projectName.trim().length > 0 &&
+    request.projectName.length <= 120 &&
+    !request.projectName.includes('\0')
 
   if (!hasBase) return false
 
   if (request.splitMethod === 'duration') {
-    return typeof request.clipDurationSeconds === 'number'
+    return (
+      typeof request.clipDurationSeconds === 'number' &&
+      Number.isFinite(request.clipDurationSeconds) &&
+      request.clipDurationSeconds > 0 &&
+      request.clipDurationSeconds <= 864000
+    )
   }
 
   if (request.splitMethod === 'equal-parts') {
-    return typeof request.equalParts === 'number'
+    return (
+      typeof request.equalParts === 'number' &&
+      Number.isInteger(request.equalParts) &&
+      request.equalParts >= 2 &&
+      request.equalParts <= 1000
+    )
   }
 
   return false
