@@ -32,6 +32,10 @@ Thumbs.db
 # Temporary files
 *.tmp
 .splitify-job-*
+scratch/
+*.mp4
+electron/**/*.js
+shared/**/*.js
 
 # Internal Documentation (Private)
 README_INTERNAL.md
