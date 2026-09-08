@@ -16,7 +16,7 @@ export function ProjectDetails({
   return (
     <div className="space-y-2.5">
       <Label htmlFor="project-name" className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-700">
-        <Tag className="size-3.5 text-blue-600" />
+        <Tag className="size-3.5 text-emerald-600" />
         <span>Project Name / Prefix</span>
       </Label>
 

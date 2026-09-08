@@ -33,12 +33,12 @@ export function ProgressSection({
   return (
     <section
       aria-label="Processing progress"
-      className="rounded-2xl border border-blue-100/80 bg-gradient-to-b from-blue-50/50 via-white to-white p-5 shadow-card"
+      className="rounded-2xl border border-emerald-100/80 bg-gradient-to-b from-emerald-50/50 via-white to-white p-5 shadow-card"
     >
       {/* Header row */}
       <div className="mb-3 flex items-center justify-between gap-4">
         <div className="flex items-center gap-2.5 min-w-0">
-          <Loader2 className="size-4 animate-spin text-blue-600 shrink-0" />
+          <Loader2 className="size-4 animate-spin text-emerald-600 shrink-0" />
           <p className="truncate text-xs font-bold text-slate-800">
             {statusLabel}
           </p>
@@ -46,11 +46,11 @@ export function ProgressSection({
 
         <div className="flex items-center gap-2">
           {totalClips > 0 && (
-            <span className="rounded-md bg-blue-100/70 px-2 py-0.5 font-mono text-[11px] font-semibold text-blue-700">
+            <span className="rounded-md bg-emerald-100/70 px-2 py-0.5 font-mono text-[11px] font-semibold text-emerald-700">
               {currentClip}/{totalClips}
             </span>
           )}
-          <span className="font-mono text-sm font-bold tabular-nums text-blue-600">
+          <span className="font-mono text-sm font-bold tabular-nums text-emerald-600">
             {percentage}%
           </span>
         </div>
@@ -65,7 +65,7 @@ export function ProgressSection({
         className="h-2 w-full overflow-hidden rounded-full bg-slate-100 p-0.5 border border-slate-200/50"
       >
         <div
-          className="h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-500 transition-[width] duration-300 ease-out shadow-xs"
+          className="h-full rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 transition-[width] duration-300 ease-out shadow-xs"
           style={{ width: `${percentage}%` }}
         />
       </div>

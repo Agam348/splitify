@@ -53,7 +53,7 @@ export function SplitWorkspace() {
   const isDesktop = typeof window !== 'undefined' && Boolean(window.splitify)
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
       <AppHeader />
 
       {!isDesktop && (
@@ -135,7 +135,7 @@ export function SplitWorkspace() {
               <Button
                 type="button"
                 size="lg"
-                className="w-full gap-2.5 h-12 text-base font-bold shadow-md shadow-blue-600/20"
+                className="w-full gap-2.5 h-12 text-base font-bold shadow-md shadow-emerald-600/20"
                 disabled={
                   validation.isValidating ||
                   !validation.isValid ||

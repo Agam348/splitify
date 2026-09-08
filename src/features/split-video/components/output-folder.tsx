@@ -23,7 +23,7 @@ export function OutputFolder({
     <div className="space-y-2.5">
       <div className="flex items-center justify-between">
         <Label htmlFor="output-folder" className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-700">
-          <FolderOpen className="size-3.5 text-blue-600" />
+          <FolderOpen className="size-3.5 text-emerald-600" />
           <span>Output Destination</span>
         </Label>
         
@@ -51,7 +51,7 @@ export function OutputFolder({
           disabled={isLoading || isSelecting}
           onClick={onChoose}
         >
-          <FolderOpen className="size-4 text-blue-600" />
+          <FolderOpen className="size-4 text-emerald-600" />
           {isSelecting ? 'Selecting...' : 'Browse...'}
         </Button>
       </div>
