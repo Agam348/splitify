@@ -3,6 +3,9 @@ import path from 'node:path'
 import electron from 'vite-plugin-electron/simple'
 import react from '@vitejs/plugin-react'
 
+// Ensure Electron spawns as a desktop application rather than plain Node.js
+delete process.env.ELECTRON_RUN_AS_NODE
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
